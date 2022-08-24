@@ -1,0 +1,42 @@
+name: "slack action"
+description: 'send message to slack'
+
+inputs:
+  pr_message_as_content:
+    description: use pr last commit as content
+    required: false
+    default: false
+  token:
+    required: true
+  message:
+    required: false
+  title:
+    required: true
+  repo:
+    required: true
+  webhook_url:
+    required: true
+
+
+runs:
+  using: "composite"
+  steps:
+      - name: Get PR Info
+        uses: minhchienwikipedia/get-pr-info@master
+        with:
+          token: ${{ inputs.token }}
+
+      - name: Setup message
+        shell: bash
+        run: |
+          if [ "${{ inputs.pr_message_as_content }}" = true ] ;then echo "message=${{ env.GIT_LATEST_COMMIT_MESSAGE }}" >> $GITHUB_ENV; else echo "message=${{ inputs.message }}" >> $GITHUB_ENV; fi
+
+      - name: Slack Notification
+        uses: Charlotte-z/action-slack-notify@master
+        env:
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_MESSAGE: ${{ env.message }}
+          SLACK_TITLE: ${{ inputs.title }}
+          SLACK_WEBHOOK: ${{ inputs.webhook_url }}
+          ACTION_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SLACK_FOOTER: "<https://github.com/wikifactory/${{ inputs.repo }}|${{ inputs.repo }}>"

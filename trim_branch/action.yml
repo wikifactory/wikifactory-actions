@@ -1,0 +1,21 @@
+name: "trim branch"
+description: 'modify branch name'
+
+inputs:
+  username:
+    description: "username for login ghcr.io"
+    required: true
+  password:
+    description: "password or token for login ghcr.io"
+    required: true
+  registry:
+    description: "login website which is file need to be uploaded into"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: trim branch
+      shell: bash
+      run: echo "TRIM_BRANCH=$(echo ${{ github.head_ref }} | sed -r 's,refs/heads/,,g' | sed -r 's,/,-,g' | tr A-Z a-z)" >> $GITHUB_ENV
+      # run: echo "TRIM_BRANCH=$(echo ${{ github.ref }} | sed -r 's,refs/heads/,,g' | sed -r 's,/,-,g' | tr A-Z a-z)" >> $GITHUB_ENV

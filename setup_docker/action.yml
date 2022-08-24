@@ -1,0 +1,28 @@
+name: "setup docker"
+description: 'reuse the same steps for docker'
+
+inputs:
+  username:
+    description: "username for login"
+    required: true
+  password:
+    description: "password or token for login"
+    required: true
+  registry:
+    description: "login"
+    required: true
+
+
+runs:
+  using: "composite"
+  steps:
+    - name: Login
+      uses: docker/login-action@v1
+      with:
+        registry: ${{ inputs.registry }}
+        username: ${{ inputs.username }}
+        password: ${{ inputs.password }}
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2

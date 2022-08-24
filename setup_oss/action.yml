@@ -1,0 +1,21 @@
+name: "setup alibaba"
+
+secrets:
+  id:
+    required: true
+  key:
+    required: true
+  enpoint:
+    required: true
+  config_dir:
+    required: true
+
+
+runs:
+  using: "composite"
+  steps:
+    - name: set up
+      shell: bash
+      run: |
+        cd ~/ && wget https://gosspublic.alicdn.com/ossutil/1.7.10/ossutil64 && chmod 777 ossutil64
+        sudo ~/ossutil64 config -i ${{ inputs.id }} -k ${{ inputs.key }} -e ${{ inputs.enpoint }} -L CH -c ${{ inputs.config_dir }}
