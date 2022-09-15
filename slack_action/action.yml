@@ -29,7 +29,27 @@ runs:
       - name: Setup message
         shell: bash
         run: |
-          if [ "${{ inputs.pr_message_as_content }}" = true ] ;then echo "message=${{ env.GIT_LATEST_COMMIT_MESSAGE }}" >> $GITHUB_ENV; else echo "message=${{ inputs.message }}" >> $GITHUB_ENV; fi
+          tmp_string=$(echo '${{ env.GIT_LATEST_COMMIT_MESSAGE }}' | awk 'BEGIN{c=1;}
+                               {
+                                   if(c % 2 == 0){
+                                       printf("%s\\n ", $0)
+                                   }
+                                   else{
+                                       printf("%s ", $0)
+                                   }
+                                   c++;
+                                }')
+          input_string=$(echo '${{ inputs.message }}' | awk 'BEGIN{c=1;}
+                               {
+                                   if(c % 2 == 0){
+                                       printf("%s\\n ", $0)
+                                   }
+                                   else{
+                                       printf("%s ", $0)
+                                   }
+                                   c++;
+                                }')
+          if [ "${{ inputs.pr_message_as_content }}" = true ] ;then echo "message=$tmp_string" >> $GITHUB_ENV; else echo "message=$input_string" >> $GITHUB_ENV; fi
 
       - name: Slack Notification
         uses: Charlotte-z/action-slack-notify@master
