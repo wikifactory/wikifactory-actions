@@ -40,7 +40,6 @@ runs:
     - shell: bash
       id: oss_check
       run: |
-        ~/ossutil64 du oss://${{ inputs.bucket }}/${{ inputs.folder }} --config-file ${{ inputs.config_dir }}
         echo $(~/ossutil64 du oss://${{ inputs.bucket }}/${{ inputs.folder }} --config-file ${{ inputs.config_dir }}) > oss_info
 
         cat oss_info | grep 'total object count: 0' > file_not_existed || true
