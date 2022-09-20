@@ -24,7 +24,7 @@ inputs:
 outputs:
   is_empty:
     description: "Random number"
-    value: ${{ steps.oss_check.outputs.test }}
+    value: ${{ steps.oss_check.outputs.is_empty }}
 
 runs:
   using: "composite"
