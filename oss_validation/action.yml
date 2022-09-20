@@ -1,0 +1,47 @@
+name: "oss validation"
+# now only support check if is oss folder empty
+description: 'check if is oss folder is empty'
+
+inputs:
+  id:
+    description: "OSS id"
+    required: true
+  key:
+    description: "OSS key"
+    required: true
+  enpoint:
+    description: "OSS enpoint"
+    required: true
+  bucket:
+    description: "oss bucket name"
+    required: true
+  folder:
+    description: "the folder you want to validation"
+    require: true
+  config_dir:
+    description: "oss config file"
+
+outputs:
+  is_empty:
+    description: "Random number"
+    value: ${{ steps.oss_check.outputs.is_empty }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup oss
+      uses: wikifactory/wikifactory-actions/setup_oss@main
+      with:
+          id: ${{ inputs.id }}
+          key: ${{ inputs.key }}
+          enpoint: ${{ inputs.enpoint }}
+          config_dir: ${{ inputs.config_dir }}
+
+    - shell: bash
+      id: oss_check
+      run: |
+        echo $(~/ossutil64 du oss://${{ inputs.bucket }}/${{ inputs.folder }} --config-file ${{ inputs.config_dir }}) > oss_info
+
+        cat oss_info | grep 'total object count: 0' > file_not_existed || true
+
+        if [ -s file_not_existed ];then echo "::set-output name=is_empty::$(echo true)"; else echo "::set-output name=is_empty::$(echo false)"; fi
