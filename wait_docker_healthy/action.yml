@@ -1,0 +1,14 @@
+name: "wait docker health"
+description: 'normally, docker compose can use depends_on to wait some services, but how to wait the last one service?'
+
+inputs:
+  service_name:
+    description: "the service which u want to wait for"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Wait for docker healthy
+      shell: bash
+      run: while [ "`docker inspect -f {{.State.Health.Status}} $(docker-compose ps -q ${{ inputs.service_name }})`" != "healthy" ]; do     sleep 2; done
