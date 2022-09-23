@@ -1,4 +1,4 @@
-name: "ssh deploy"
+name: "ssh docker update"
 description: 'auto deploy the container'
 
 inputs:
@@ -10,16 +10,16 @@ inputs:
     required: true
     type: string
     description: "where is the docker compose path're"
-  deployer_host:
+  host:
     description: "url host"
     required: true
-  deployer_username:
+  username:
     description: "username"
     required: true
-  ci_ssh_key:
+  key:
     description: "ssh key"
     required: true
-  ci_ssh_passphrase:
+  passphrase:
     required: true
 
 runs:
