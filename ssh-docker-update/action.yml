@@ -28,10 +28,10 @@ runs:
     - name: Run production deploy script
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ inputs.deployer_host }}
-        username: ${{ inputs.deployer_username }}
-        key: ${{ inputs.ci_ssh_key }}
-        passphrase: ${{ inputs.ci_ssh_passphrase }}
+        host: ${{ inputs.host }}
+        username: ${{ inputs.username }}
+        key: ${{ inputs.key }}
+        passphrase: ${{ inputs.passphrase }}
         script: |
           cd ${{ inputs.path }}
           echo "${{ inputs.services_name }}" > /tmp/services_tmp_name
