@@ -6,16 +6,20 @@ inputs:
     required: true
     type: string
     is-array: true
-  DEPLOYER_HOST:
+  path:
+    required: true
+    type: string
+    description: "where is the docker compose path're"
+  deployer_host:
     description: "url host"
     required: true
-  DEPLOYER_USERNAME:
+  deployer_username:
     description: "username"
     required: true
-  CI_SSH_KEY:
+  ci_ssh_key:
     description: "ssh key"
     required: true
-  CI_SSH_PASSPHRASE:
+  ci_ssh_passphrase:
     required: true
 
 runs:
@@ -24,10 +28,10 @@ runs:
     - name: Run production deploy script
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ inputs.DEPLOYER_HOST }}
-        username: ${{ inputs.DEPLOYER_USERNAME }}
-        key: ${{ inputs.CI_SSH_KEY }}
-        passphrase: ${{ inputs.CI_SSH_PASSPHRASE }}
+        host: ${{ inputs.deployer_host }}
+        username: ${{ inputs.deployer_username }}
+        key: ${{ inputs.ci_ssh_key }}
+        passphrase: ${{ inputs.ci_ssh_passphrase }}
         script: |
           cd ${{ inputs.path }}
           echo "${{ inputs.services_name }}" > services
