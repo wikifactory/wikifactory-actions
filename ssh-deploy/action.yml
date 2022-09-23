@@ -1,0 +1,38 @@
+name: "ssh deploy"
+description: 'auto deploy the container'
+
+inputs:
+  services_name:
+    required: true
+    type: string
+    is-array: true
+  DEPLOYER_HOST:
+    description: "url host"
+    required: true
+  DEPLOYER_USERNAME:
+    description: "username"
+    required: true
+  CI_SSH_KEY:
+    description: "ssh key"
+    required: true
+  CI_SSH_PASSPHRASE:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run production deploy script
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ inputs.DEPLOYER_HOST }}
+        username: ${{ inputs.DEPLOYER_USERNAME }}
+        key: ${{ inputs.CI_SSH_KEY }}
+        passphrase: ${{ inputs.CI_SSH_PASSPHRASE }}
+        script: |
+          cd ${{ inputs.path }}
+          echo "${{ inputs.services_name }}" > services
+          services_name=$(awk BEGIN{RS=EOF}'{gsub(/\n/," ");print}' services)
+
+          docker compose pull $services_name
+          docker compose up -d
+        command_timeout: 30m
