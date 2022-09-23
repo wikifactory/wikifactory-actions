@@ -37,6 +37,6 @@ runs:
           echo "${{ inputs.services_name }}" > /tmp/services_tmp_name
           services_name=$(awk BEGIN{RS=EOF}'{gsub(/\n/," ");print}' /tmp/services_tmp_name)
 
-          docker compose pull $services_name
-          docker compose up -d
+          docker-compose pull $services_name
+          docker-compose up -d
         command_timeout: 30m
