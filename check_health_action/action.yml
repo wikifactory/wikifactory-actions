@@ -3,7 +3,7 @@ description: 'check input's services is healthy'
 
 inputs:
   services_name:
-    description: "the service which u want to wait for"
+    description: "the services which you want to check if is health"
     required: true
     is-array: true
 
