@@ -29,7 +29,7 @@ runs:
       - name: Setup message
         shell: bash
         run: |
-          tmp_string=$(echo '${{ env.GIT_LATEST_COMMIT_MESSAGE }}' | awk 'BEGIN{c=1;}
+          tmp_string=$(echo "${{ env.GIT_LATEST_COMMIT_MESSAGE }}" | awk 'BEGIN{c=1;}
                                {
                                    if(c % 2 == 0){
                                        printf("%s\\n ", $0)
@@ -39,7 +39,7 @@ runs:
                                    }
                                    c++;
                                 }')
-          input_string=$(echo '${{ inputs.message }}' | awk 'BEGIN{c=1;}
+          input_string=$(echo "${{ inputs.message }}" | awk 'BEGIN{c=1;}
                                {
                                    if(c % 2 == 0){
                                        printf("%s\\n ", $0)
