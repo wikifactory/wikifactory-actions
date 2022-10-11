@@ -28,9 +28,13 @@ runs:
       - name: Setup message
         shell: bash
         run: |
-          tmp_string=$(echo ${{ env.GIT_LATEST_COMMIT_MESSAGE }}  | tr '\n' '  ')
+          touch tmp.txt
 
-          input_string=$(echo ${{ inputs.message }} | tr '\n' '  ')
+          echo ${{ env.GIT_LATEST_COMMIT_MESSAGE }} > tmp.txt
+          tmp_string=$(sed -n '1p' tmp.txt)
+
+          echo ${{ inputs.message }} > tmp.txt
+          input_string=$(sed -n '1p' tmp.txt)
 
           if [ "${{ inputs.pr_message_as_content }}" = true ] ;then echo "message=$tmp_string" >> $GITHUB_ENV; else echo "message=$input_string" >> $GITHUB_ENV; fi
 
