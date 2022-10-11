@@ -30,12 +30,12 @@ runs:
         run: |
           touch tmp.txt
 
-          cat <<EOT >> tmp.txt
+          cat <<EOT > tmp.txt
           ${{ env.GIT_LATEST_COMMIT_MESSAGE }}
           EOT
           tmp_string=$(cat tmp.txt | tr '\n' "  ")
 
-          cat <<EOT >> tmp.txt
+          cat <<EOT > tmp.txt
           ${{ inputs.message }}
           EOT
           input_string=$(cat tmp.txt | tr '\n' "  ")
