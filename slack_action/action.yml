@@ -33,12 +33,12 @@ runs:
           cat <<EOT >> tmp.txt
           ${{ env.GIT_LATEST_COMMIT_MESSAGE }}
           EOT
-          tmp_string=$(sed -n '1p' tmp.txt)
+          tmp_string=$(cat tmp.txt | tr '\n' "  ")
 
           cat <<EOT >> tmp.txt
           ${{ inputs.message }}
           EOT
-          input_string=$(sed -n '1p' tmp.txt)
+          input_string=$(cat tmp.txt | tr '\n' "  ")
 
           if [ "${{ inputs.pr_message_as_content }}" = true ] ;then echo "message=$tmp_string" >> $GITHUB_ENV; else echo "message=$input_string" >> $GITHUB_ENV; fi
 
