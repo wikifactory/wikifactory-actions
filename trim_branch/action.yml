@@ -18,7 +18,8 @@ runs:
     - name: Get branch name
       shell: bash
       uses: nelonoel/branch-name@v1.0.1
-    - run: echo ${BRANCH_NAME}
+    - shell: bash
+      run: echo ${BRANCH_NAME}
     - name: trim branch
       shell: bash
       run: echo "TRIM_BRANCH=$(echo ${{ github.head_ref }} | sed -r 's,refs/heads/,,g' | sed -r 's,/,-,g' | tr A-Z a-z)" >> $GITHUB_ENV
