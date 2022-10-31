@@ -18,11 +18,7 @@ runs:
     - name: Get branch name
       id: branch-name
       uses: tj-actions/branch-names@v6
-    - name: Running on the default branch.
-      shell: bash
-      run: |
-        echo "Running on default: ${{ steps.branch-name.outputs.current_branch }}"
     - name: trim branch
       shell: bash
-      run: echo "TRIM_BRANCH=$(echo ${{ github.head_ref }} | sed -r 's,refs/heads/,,g' | sed -r 's,/,-,g' | tr A-Z a-z)" >> $GITHUB_ENV
+      run: echo "TRIM_BRANCH=$(echo ${{ steps.branch-name.outputs.current_branch }} | sed -r 's,refs/heads/,,g' | sed -r 's,/,-,g' | tr A-Z a-z)" >> $GITHUB_ENV
       # run: echo "TRIM_BRANCH=$(echo ${{ github.ref }} | sed -r 's,refs/heads/,,g' | sed -r 's,/,-,g' | tr A-Z a-z)" >> $GITHUB_ENV
