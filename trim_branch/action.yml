@@ -16,6 +16,7 @@ runs:
   using: "composite"
   steps:
     - name: Get branch name
+      shell: bash
       uses: nelonoel/branch-name@v1.0.1
     - run: echo ${BRANCH_NAME}
     - name: trim branch
