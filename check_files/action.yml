@@ -1,0 +1,35 @@
+name: "use git diff to check files if changed"
+
+inputs:
+  pattern:
+    description: "match pattern of files, same with grep"
+    required: true
+
+outputs:
+  any_changed:
+    value: ${{ steps.manual_check.outputs.any_changed }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check files if changed
+      id: manual_check
+      shell: bash
+      run: |
+        if [[ -n "${{ inputs.pattern }}" ]]; then
+          touch files.txt
+          git fetch origin master
+          git diff --name-only origin/master > files.txt
+
+          echo "Al of files changed: $(cat files.txt)"
+
+          cat files.txt| grep '${{ inputs.pattern }}' > output.txt
+
+          echo "${{ inputs.pattern }} files changed: $(cat files.txt)"
+
+          num_lines=$(wc -l output.txt | awk '{print $1}')
+          if [[ $num_lines > 0 ]];then echo "any_changed=true" >> $GITHUB_OUTPUT ; else echo "any_changed=false" >> $GITHUB_OUTPUT; fi
+
+        else
+          echo "any_changed=false" >> $GITHUB_OUTPUT
+        fi
