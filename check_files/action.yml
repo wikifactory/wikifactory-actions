@@ -23,7 +23,7 @@ runs:
 
           echo "Al of files changed: $(cat files.txt)"
 
-          cat files.txt| grep -E -q '${{ inputs.pattern }}' > output.txt
+          cat files.txt| grep -E '${{ inputs.pattern }}' > output.txt || true
 
           echo "${{ inputs.pattern }} files changed: $(cat files.txt)"
 
