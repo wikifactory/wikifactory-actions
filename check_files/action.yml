@@ -7,7 +7,7 @@ inputs:
 
 outputs:
   any_changed:
-    value: ${{ steps.test.outputs.any_changed }}
+    value: ${{ steps.manual_check.outputs.any_changed }}
 
 runs:
   using: "composite"
@@ -16,9 +16,7 @@ runs:
       id: manual_check
       shell: bash
       run: |
-        echo "111 ${{ inputs.pattern }}"
         if [[ -n "${{ inputs.pattern }}" ]]; then
-          echo "2 ${{ inputs.pattern }}"
           touch files.txt
           git fetch origin master
           git diff --name-only origin/master > files.txt
@@ -30,7 +28,6 @@ runs:
           echo "${{ inputs.pattern }} files changed: $(cat files.txt)"
 
           num_lines=$(wc -l output.txt | awk '{print $1}')
-          echo "$num_lines"
           if [[ $num_lines > 0 ]];then echo "any_changed=true" >> $GITHUB_OUTPUT ; else echo "any_changed=false" >> $GITHUB_OUTPUT; fi
 
         else
