@@ -16,7 +16,7 @@ runs:
       id: manual_check
       shell: bash
       run: |
-        if [[ -n ${{ inputs.pattern }} ]]; then
+        if [[ -n "${{ inputs.pattern }}" ]]; then
           touch files.txt
           git fetch origin master
           git diff --name-only origin/master > files.txt
