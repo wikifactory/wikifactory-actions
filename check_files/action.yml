@@ -18,7 +18,7 @@ runs:
       run: |
         if [[ -n "${{ inputs.pattern }}" ]]; then
           touch files.txt
-          git fetch origin master
+          git fetch origin master -depth=2
           git diff --name-only origin/master > files.txt
 
           echo "Al of files changed: $(cat files.txt)"
@@ -29,6 +29,7 @@ runs:
 
           num_lines=$(wc -l output.txt | awk '{print $1}')
           if [[ $num_lines > 0 ]];then echo "any_changed=true" >> $GITHUB_OUTPUT ; else echo "any_changed=false" >> $GITHUB_OUTPUT; fi
+          echo "num_lines: $num_lines, any_changed: $any_changed"
 
         else
           echo "any_changed=false" >> $GITHUB_OUTPUT
