@@ -1,0 +1,15 @@
+name: "github short sha"
+
+outputs:
+  sha:
+    value: ${{ steps.short-sha.outputs.sha }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check files if changed
+      id: short-sha
+      shell: bash
+      run: |
+        sha=$(git rev-parse --short=7 HEAD)
+        echo "sha=$sha" >> $GITHUB_OUTPUT
