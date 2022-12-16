@@ -23,12 +23,13 @@ runs:
 
           echo "Al of files changed: $(cat files.txt)"
 
-          cat files.txt| grep -E '${{ inputs.pattern }}' > output.txt
+          cat files.txt| grep -E '${{ inputs.pattern }}' > output.txt || true
 
           echo "${{ inputs.pattern }} files changed: $(cat files.txt)"
 
           num_lines=$(wc -l output.txt | awk '{print $1}')
           if [[ $num_lines > 0 ]];then echo "any_changed=true" >> $GITHUB_OUTPUT ; else echo "any_changed=false" >> $GITHUB_OUTPUT; fi
+          echo "num_lines: $num_lines"
 
         else
           echo "any_changed=false" >> $GITHUB_OUTPUT
