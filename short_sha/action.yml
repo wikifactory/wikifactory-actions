@@ -11,5 +11,5 @@ runs:
       id: short-sha
       shell: bash
       run: |
-        sha=$(git rev-parse --short=7 HEAD)
-        echo "sha=$sha" >> $GITHUB_OUTPUT
+        sha=${{ github.sha }}
+        echo "sha=${sha:0:7}" >> $GITHUB_OUTPUT
