@@ -18,7 +18,7 @@ runs:
       run: |
         if [[ -n "${{ inputs.pattern }}" ]]; then
           touch files.txt
-          git fetch origin master
+          git fetch --depth=1 origin master
           git diff --name-only origin/master > files.txt
 
           echo "Al of files changed: $(cat files.txt)"
