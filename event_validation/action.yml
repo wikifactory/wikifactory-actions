@@ -1,0 +1,25 @@
+name: "event validation"
+# now only support check if is oss folder empty
+description: 'check if is the event you wanted in steps'
+
+inputs:
+  event_name:
+    description: "github action trigger event name"
+    required: true
+
+outputs:
+  hit:
+    description: "the result of event validation, bool"
+    value: ${{ steps.event_check.outputs.hit }}
+
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      id: event_check
+      run: |
+        if [[ "${{ github.event_name }}" == "${{ inputs.event_name }}" ]];then
+          echo "hit=true" >> $GITHUB_OUTPUT
+        else
+          echo "hit=false" >> $GITHUB_OUTPUT
+        fi
