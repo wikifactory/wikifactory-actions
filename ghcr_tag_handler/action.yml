@@ -2,9 +2,15 @@ name: "ghcr tag handler"
 description: 'handle the github action ghcr tag and given the required data'
 
 inputs:
+  token:
+    required: true
+  org:
+    required: true
+  package:
+    required: true
   current_tag:
     description: "current ghcr tag name"
-    required: false
+    required: true
 
 runs:
   using: "composite"
@@ -12,6 +18,15 @@ runs:
     - name: Get short sha
       uses: wikifactory/wikifactory-actions/short_sha@main
       id: short-sha
+
+    - name: Check ghcr tag existed
+      uses: wikifactory/wikifactory-actions/check_ghcr_tag_existed@main
+      with:
+        user: ${{ github.actor }}
+        token: ${{ inputs.token }}
+        org: ${{ inputs.org }}
+        package: ${{ inputs.package }}
+        tag: ${{ inputs.current_tag }}
 
     - shell: bash
       id: ghcr_tag_handler
@@ -25,17 +40,12 @@ runs:
             echo "current_tag=${{ inputs.current_tag }}" >> $GITHUB_ENV
             echo "src=${{ inputs.current_tag }}" >> $GITHUB_ENV
           fi
-
-          echo "is_staging=true" >> $GITHUB_ENV
-          echo "is_production=false" >> $GITHUB_ENV
         fi
 
 # production
         if [[ "${{ github.event_name }}" == "release" ]];then
           echo "dst_tag_short=production.${{ github.event.release.tag_name }}" >> $GITHUB_ENV
           echo "dst_tag_long=production" >> $GITHUB_ENV
-          echo "is_staging=false" >> $GITHUB_ENV
-          echo "is_production=true" >> $GITHUB_ENV
 
           if [[ ${{ inputs.current_tag }} ]]; then
             echo "current_tag=master.${{ steps.short-sha.outputs.sha }}" >> $GITHUB_ENV;
