@@ -43,8 +43,8 @@ runs:
         fi
 
 # production
-        if [[ "${{ github.event_name }}" == "release" ]];then
-          echo "dst_tag_short=production.${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+        if [[ "${{ github.event_name }}" == "push" ]];then
+          echo "dst_tag_short=production.release-test" >> $GITHUB_ENV
           echo "dst_tag_long=production" >> $GITHUB_ENV
 
           if [[ ${{ inputs.current_tag }} ]]; then
