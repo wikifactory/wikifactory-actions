@@ -37,7 +37,7 @@ runs:
           echo "ENVIRONMENT: production"
           echo "dst_tag_short: production"
           echo "dst_tag_short: production.release-test"
-          echo "${{ inputs.current_tag }} existed: ${{ env.TAG_EXISTED }}"
+          echo "is ${{ inputs.current_tag }} existed: ${{ env.TAG_EXISTED }}"
           echo "current_tag: master.${{ steps.short-sha.outputs.sha }}"
 
           echo "dst_tag_long=production.release-test" >> $GITHUB_ENV
