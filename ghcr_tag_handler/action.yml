@@ -46,12 +46,12 @@ runs:
           fi
         fi
 # staging
-    # if [[ "${{ github.event_name }}" == "pull_request" ]];then
-    #   echo "dst_tag_long=master.${{ steps.short-sha.outputs.sha }}" >> $GITHUB_ENV
-    #   echo "dst_tag_short=master" >> $GITHUB_ENV
+        if [[ "${{ github.event_name }}" == "pull_request" ]];then
+          echo "dst_tag_long=master.${{ steps.short-sha.outputs.sha }}" >> $GITHUB_ENV
+          echo "dst_tag_short=master" >> $GITHUB_ENV
 
-    #   if [[ ${{ inputs.current_tag }} ]]; then
-    #     echo "current_tag=${{ inputs.current_tag }}" >> $GITHUB_ENV
-    #     echo "src=${{ inputs.current_tag }}" >> $GITHUB_ENV
-    #   fi
-    # fi
+          if [[ ${{ inputs.current_tag }} ]]; then
+            echo "current_tag=${{ inputs.current_tag }}" >> $GITHUB_ENV
+            echo "src=${{ inputs.current_tag }}" >> $GITHUB_ENV
+          fi
+        fi
