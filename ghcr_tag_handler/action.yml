@@ -32,26 +32,45 @@ runs:
       id: ghcr_tag_handler
       run: |
         if [[ "${{ github.event_name }}" == "push" ]];then
-          echo "dst_tag_short=production.release-test" >> $GITHUB_ENV
-          echo "dst_tag_long=production" >> $GITHUB_ENV
+          echo "----------------------------------"
+
+          echo "ENVIRONMENT: production"
+          echo "dst_tag_short: production"
+          echo "dst_tag_short: production.release-test"
+          echo "current_tag: master.${{ steps.short-sha.outputs.sha }}"
+
+          echo "dst_tag_long=production.release-test" >> $GITHUB_ENV
+          echo "dst_tag_short=production" >> $GITHUB_ENV
 
           if [[ ${{ inputs.current_tag }} ]]; then
             echo "current_tag=master.${{ steps.short-sha.outputs.sha }}" >> $GITHUB_ENV;
           fi
 
           if [[ "${{ env.TAG_EXISTED }}" == 'true' ]];then
+            echo "src_tag: master.${{ steps.short-sha.outputs.sha }}"
             echo "src_tag=master.${{ steps.short-sha.outputs.sha }}" >> $GITHUB_ENV;
           else
+            echo "src_tag: master"
             echo "src_tag=master" >> $GITHUB_ENV;
           fi
+
+          echo "----------------------------------"
         fi
 
         if [[ "${{ github.event_name }}" == "pull_request" ]];then
+          echo "----------------------------------"
+          echo "ENVIRONMENT: staging"
+          echo "dst_tag_long: master.${{ steps.short-sha.outputs.sha }}"
+          echo "dst_tag_short: master"
+          echo "current_tag: ${{ inputs.current_tag }}"
+          echo "src_tag: ${{ inputs.current_tag }}"
+
           echo "dst_tag_long=master.${{ steps.short-sha.outputs.sha }}" >> $GITHUB_ENV
           echo "dst_tag_short=master" >> $GITHUB_ENV
 
           if [[ ${{ inputs.current_tag }} ]]; then
             echo "current_tag=${{ inputs.current_tag }}" >> $GITHUB_ENV
-            echo "src=${{ inputs.current_tag }}" >> $GITHUB_ENV
+            echo "src_tag=${{ inputs.current_tag }}" >> $GITHUB_ENV
           fi
+          echo "----------------------------------"
         fi
