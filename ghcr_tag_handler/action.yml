@@ -31,7 +31,7 @@ runs:
     - shell: bash
       id: ghcr_tag_handler
       run: |
-        if [[ "${{ github.event_name }}" == "push" ]];then
+        if [[ "${{ github.event_name }}" == "release" ]];then
           echo "----------------------------------"
 
           echo "ENVIRONMENT: production"
