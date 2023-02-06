@@ -38,18 +38,18 @@ runs:
           echo "dst_tag_short: production"
           echo "dst_tag_short: production.release-test"
           echo "is ${{ inputs.current_tag }} existed: ${{ env.TAG_EXISTED }}"
-          echo "current_tag: ${{ inputs.current_tag }}"
+          echo "current_tag: master.${{ steps.short-sha.outputs.sha }}"
 
           echo "dst_tag_long=production.release-beta-v1.1" >> $GITHUB_ENV
           echo "dst_tag_short=production.release-beta" >> $GITHUB_ENV
 
           if [[ ${{ inputs.current_tag }} ]]; then
-            echo "current_tag=${{ inputs.current_tag }}" >> $GITHUB_ENV;
+            echo "current_tag=master.${{ steps.short-sha.outputs.sha }}" >> $GITHUB_ENV;
           fi
 
           if [[ "${{ env.TAG_EXISTED }}" == 'true' ]];then
-            echo "src_tag: ${{ inputs.current_tag }}"
-            echo "src_tag=${{ inputs.current_tag }}" >> $GITHUB_ENV;
+            echo "src_tag: master.${{ steps.short-sha.outputs.sha }}"
+            echo "src_tag=master.${{ steps.short-sha.outputs.sha }}" >> $GITHUB_ENV;
           else
             echo "src_tag: master"
             echo "src_tag=master" >> $GITHUB_ENV;
