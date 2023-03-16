@@ -35,13 +35,13 @@ runs:
           echo "----------------------------------"
 
           echo "ENVIRONMENT: production"
-          echo "dst_tag_short: production"
-          echo "dst_tag_long: production.${{ github.event.release.tag_name }}"
+          echo "dst_tag_short: production-beta"
+          echo "dst_tag_long: production.${{ github.event.release.tag_name }}-beta"
           echo "is ${{ inputs.current_tag }} existed: ${{ env.TAG_EXISTED }}"
           echo "current_tag: master.${{ steps.short-sha.outputs.sha }}"
 
-          echo "dst_tag_long=production.${{ github.event.release.tag_name }}" >> $GITHUB_ENV
-          echo "dst_tag_short=production" >> $GITHUB_ENV
+          echo "dst_tag_long=production.${{ github.event.release.tag_name }}-beta" >> $GITHUB_ENV
+          echo "dst_tag_short=production-beta" >> $GITHUB_ENV
 
           if [[ ${{ inputs.current_tag }} ]]; then
             echo "current_tag=master.${{ steps.short-sha.outputs.sha }}" >> $GITHUB_ENV;
