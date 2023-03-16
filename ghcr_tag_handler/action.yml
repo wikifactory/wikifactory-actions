@@ -31,7 +31,7 @@ runs:
     - shell: bash
       id: ghcr_tag_handler
       run: |
-        if [[ "${{ github.event_name }}" == "release" ]];then
+        if [[ "${{ github.event_name }}" == "push" ]];then
           echo "----------------------------------"
 
           echo "ENVIRONMENT: production"
@@ -58,7 +58,7 @@ runs:
           echo "----------------------------------"
         fi
 
-        if [[ "${{ github.event_name }}" == "pull_request" ]];then
+        if [[ "${{ github.event_name }}" == "release" ]];then
           echo "----------------------------------"
           echo "ENVIRONMENT: staging"
           echo "dst_tag_long: master.${{ steps.short-sha.outputs.sha }}"
