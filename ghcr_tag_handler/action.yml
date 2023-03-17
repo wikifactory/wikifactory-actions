@@ -43,7 +43,7 @@ runs:
           echo "dst_tag_long=production.${{ github.event.release.tag_name }}" >> $GITHUB_ENV
           echo "dst_tag_short=production" >> $GITHUB_ENV
 
-          if [[ ${{ inputs.current_tag }} ]]; then
+          if [[ -z "${{ inputs.current_tag }}" ]]; then
             echo "current_tag=master.${{ steps.short-sha.outputs.sha }}" >> $GITHUB_ENV;
           fi
 
@@ -69,7 +69,7 @@ runs:
           echo "dst_tag_long=master.${{ steps.short-sha.outputs.sha }}" >> $GITHUB_ENV
           echo "dst_tag_short=master" >> $GITHUB_ENV
 
-          if [[ ${{ inputs.current_tag }} ]]; then
+          if [[ -n "${{ inputs.current_tag }}" ]]; then
             echo "current_tag=${{ inputs.current_tag }}" >> $GITHUB_ENV
             echo "src_tag=${{ inputs.current_tag }}" >> $GITHUB_ENV
           fi
