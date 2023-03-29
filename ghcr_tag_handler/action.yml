@@ -10,7 +10,7 @@ inputs:
     required: true
   current_tag:
     description: "current ghcr tag name"
-    required: true
+    required: false
 
 runs:
   using: "composite"
