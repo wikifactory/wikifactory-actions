@@ -10,6 +10,7 @@ on:
 jobs:
   publish:
     name: Deploy
+    if: (github.event.pull_request.base.ref == 'main' && github.event.pull_request.merged == true) || github.event_name == 'release'
     runs-on: ubuntu-latest
     steps:
       - name: Setup oss
