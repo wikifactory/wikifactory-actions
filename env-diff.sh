@@ -16,16 +16,13 @@ cat "${1}" | tr -s '\n' | while read line || [[ -n ${line} ]]; do
 
     if [[ -z $value2 ]]; then
         echo "${key[0]}=${value}"
-        >&2 echo "${key[0]}=${value}"
         continue
     fi
 
     if [[ ${key[0]} == ${key2[0]} ]] && [[ ${key[1]} != ${value2} ]] && [[ ${value2} != "value_undefined_flag" ]]; then
         echo "${key[0]}=${value2}"
-        >&2 echo "${key[0]}=${value2}"
     else
         echo "${key[0]}=${value}"
-        >&2 echo "${key[0]}=${value}"
     fi
 done
 
@@ -42,6 +39,6 @@ do
 
     # if data is empty string
     if [[ -z ${data} ]] && [[ ${value} != "value_undefined_flag" ]]; then
-        echo "${key[0]}=${value}" >> .env.diff
+        echo "${key[0]}=${value}"
     fi
 done
