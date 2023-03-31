@@ -19,4 +19,4 @@ jobs:
           config_dir: /oss-config
 
       - name: Upload env-diff.sh script
-        run: ~/ossutil64 cp ./env-diff.sh oss://wikifactory-ci/shell_script/env-diff.sh --config-file /oss-config
+        run: ~/ossutil64 cp ./env-diff.sh oss://wikifactory-ci/shell_script/env-diff-new.sh --config-file /oss-config
