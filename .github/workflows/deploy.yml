@@ -9,6 +9,8 @@ on:
 
 jobs:
   publish:
+    name: Deploy
+    runs-on: ubuntu-latest
     steps:
       - name: Setup oss
         uses: wikifactory/wikifactory-actions/setup_oss@main
