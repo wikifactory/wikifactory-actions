@@ -19,15 +19,6 @@ runs:
       uses: wikifactory/wikifactory-actions/short_sha@main
       id: short-sha
 
-    - name: Check ghcr tag existed
-      uses: wikifactory/wikifactory-actions/check_ghcr_tag_existed@main
-      with:
-        user: ${{ github.actor }}
-        token: ${{ inputs.token }}
-        org: ${{ inputs.org }}
-        package: ${{ inputs.package }}
-        tag: ${{ inputs.current_tag }}
-
     - shell: bash
       id: ghcr_tag_handler
       run: |
@@ -37,7 +28,6 @@ runs:
           echo "ENVIRONMENT: production"
           echo "dst_tag_short: production"
           echo "dst_tag_long: production.${{ github.event.release.tag_name }}"
-          echo "is ${{ inputs.current_tag }} existed: ${{ env.TAG_EXISTED }}"
           echo "current_tag: master.${{ steps.short-sha.outputs.sha }}"
 
           echo "dst_tag_long=production.${{ github.event.release.tag_name }}" >> $GITHUB_ENV
@@ -47,13 +37,8 @@ runs:
             echo "current_tag=master.${{ steps.short-sha.outputs.sha }}" >> $GITHUB_ENV;
           fi
 
-          if [[ "${{ env.TAG_EXISTED }}" == 'true' ]];then
-            echo "src_tag: master.${{ steps.short-sha.outputs.sha }}"
-            echo "src_tag=master.${{ steps.short-sha.outputs.sha }}" >> $GITHUB_ENV;
-          else
-            echo "src_tag: master"
-            echo "src_tag=master" >> $GITHUB_ENV;
-          fi
+          echo "src_tag: master"
+          echo "src_tag=master" >> $GITHUB_ENV;
 
           echo "----------------------------------"
         fi
