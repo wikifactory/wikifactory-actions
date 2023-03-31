@@ -1,0 +1,22 @@
+name: Release
+
+on:
+  pull_request:
+    types:
+      - closed
+  release:
+    types: [released]
+
+jobs:
+  publish:
+    steps:
+      - name: Setup oss
+        uses: wikifactory/wikifactory-actions/setup_oss@main
+        with:
+          id: ${{ secrets.OSS_KEY_ID }}
+          key: ${{ secrets.OSS_KEY_SECRET }}
+          enpoint: oss-eu-central-1.aliyuncs.com
+          config_dir: /oss-config
+
+      - name: Upload env-diff.sh script
+        run: ~/ossutil64 cp ./env-diff.sh oss://wikifactory-ci/shell_script/env-diff-new.sh --config-file /oss-config
