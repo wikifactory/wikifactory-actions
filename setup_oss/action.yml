@@ -24,7 +24,8 @@ runs:
             sudo ./ossutil64 config -i ${{ inputs.id }} -k ${{ inputs.key }} -e ${{ inputs.enpoint }} -L CH -c ${{ inputs.config_dir }}
         elif [ "$OS" = "Darwin" ]; then
             curl -o ossutilmac64 http://gosspublic.alicdn.com/ossutil/1.7.0/ossutilmac64 && chmod 777 ossutilmac64
-            sudo ./ossutilmac64 config -i ${{ inputs.id }} -k ${{ inputs.key }} -e ${{ inputs.enpoint }} -L CH -c ${{ inputs.config_dir }}
+            mv ossutilmac64 ossutil64
+            sudo ./ossutil64 config -i ${{ inputs.id }} -k ${{ inputs.key }} -e ${{ inputs.enpoint }} -L CH -c ${{ inputs.config_dir }}
         else
             echo "Unsupported OS"
             exit 1
