@@ -7,7 +7,7 @@ get_key() {
 }
 
 get_value() {
-    echo "$1" | cut -d= -f2
+    echo "$1" | cut -d= -f2-
 }
 
 cat "$2" | tr -s '\n' | while read line || [[ -n $line ]]; do
