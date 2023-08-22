@@ -1,6 +1,6 @@
 name: "setup alibaba"
 
-secrets:
+inputs:
   id:
     required: true
   key:
