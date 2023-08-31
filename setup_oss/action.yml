@@ -30,7 +30,6 @@ runs:
         elif [ "${{ runner.os }}" = "Windows" ]; then
             powershell -command "Invoke-WebRequest -Uri 'https://gosspublic.alicdn.com/ossutil/1.7.10/ossutil64.exe' -OutFile 'ossutil64.exe'"
             ./ossutil64.exe config -i ${{ inputs.id }} -k ${{ inputs.key }} -e ${{ inputs.enpoint }} -L CH -c ${{ inputs.config_dir }}
-          else
         else
             echo "Unsupported OS"
             exit 1
