@@ -1,0 +1,10 @@
+name: "Increase Package Version"
+description: "Automatically increment version in package.json"
+inputs:
+  path:
+    description: "Path to the package.json file"
+    required: true
+    default: "./package.json"
+runs:
+  using: 'node20'
+  main: "dist/index.js"
