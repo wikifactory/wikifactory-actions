@@ -6,7 +6,7 @@ runs:
   steps:
     - name: Get branch name
       id: branch-name
-      uses: tj-actions/branch-names@v6
+      uses: tj-actions/branch-names@v7
     - name: trim branch
       shell: bash
       run: echo "TRIM_BRANCH=$(echo ${{ steps.branch-name.outputs.current_branch }} | sed -r 's,refs/heads/,,g' | sed -r 's,/,-,g' | tr A-Z a-z)" >> $GITHUB_ENV
