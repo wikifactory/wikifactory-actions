@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const core = require("@actions/core");
-const process = require("process");
+const process = require('process');
 
 try {
   function incrementVersion(version) {
@@ -23,14 +23,21 @@ try {
   const pathInput = core.getInput("path");
   const fullPath = path.join(process.env.GITHUB_WORKSPACE, pathInput);
 
-  const packageDataRaw = fs.readFileSync(fullPath, "utf8"); // Use 'utf8' encoding to get a string
+  const packageDataRaw = fs.readFileSync(fullPath, 'utf8');
   const packageData = JSON.parse(packageDataRaw);
-
+  
+  const oldVersion = packageData.version;
   packageData.version = incrementVersion(packageData.version);
+  const newVersion = packageData.version;
 
-  fs.writeFileSync(fullPath, JSON.stringify(packageData, null, 2) + "\n");
-
-  core.setOutput("new-version", packageData.version);
+  fs.writeFileSync(
+    fullPath,
+    JSON.stringify(packageData, null, 2) + "\n"
+  );
+  
+  core.setOutput("old-version", oldVersion);
+  core.setOutput("new-version", newVersion);
+  
 } catch (error) {
   core.setFailed(error.message);
 }
