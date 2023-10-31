@@ -25915,8 +25915,9 @@ const process = __nccwpck_require__(7282);
 
 try {
   function incrementVersion(version) {
-    const parts = version.split(".");
-    if (parts[2] < 9) {
+    const parts = version.split(".").map(part => parseInt(part, 10)); // Convert each part to number
+    
+    if (parts[2] < 99) { // Assuming you don't want it to go beyond 99
       parts[2]++;
     } else {
       parts[2] = 0;
