@@ -1,8 +1,9 @@
-name: "trigger other repo workflow"
+name: "trigger workflow in another repo"
 
 inputs:
   token:
     required: true
+    description: "needs personal access token"
   author:
     required: true
   repo:
@@ -13,7 +14,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Trigger Repository B workflow
+    - name: Trigger Repository ${{ inputs.repo }} workflow
       shell: bash
       run: |
         curl -X POST \
