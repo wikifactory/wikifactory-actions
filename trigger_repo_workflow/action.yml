@@ -1,0 +1,24 @@
+name: "trigger workflow in another repo"
+
+inputs:
+  token:
+    required: true
+    description: "needs personal access token"
+  author:
+    required: true
+  repo:
+    require: true
+  eventType:
+    require: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Trigger Repository ${{ inputs.repo }} workflow
+      shell: bash
+      run: |
+        curl -X POST \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: token ${{ inputs.token }}" \
+          https://api.github.com/repos/${{ inputs.author }}/${{ inputs.repo }}/dispatches \
+          -d '{"event_type": "${{ inputs.eventType }}"}'
