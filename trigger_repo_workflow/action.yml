@@ -1,4 +1,4 @@
-name: "trigger other repo workflow"
+name: "trigger workflow in another repo"
 
 inputs:
   token:
