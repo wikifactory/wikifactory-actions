@@ -57,6 +57,9 @@ runs:
           if [[ -n "${{ inputs.current_tag }}" ]]; then
             echo "current_tag=${{ inputs.current_tag }}" >> $GITHUB_ENV
             echo "src_tag=${{ inputs.current_tag }}" >> $GITHUB_ENV
+          else
+            echo "current_tag=master" >> $GITHUB_ENV
+            echo "src_tag=master" >> $GITHUB_ENV
           fi
           echo "----------------------------------"
         fi
