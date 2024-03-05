@@ -16,9 +16,9 @@ inputs:
   commitFrom: 
     require: true
     description: "commit hash to trigger the workflow from"
-  commitSha:
+  imageTag:
     require: true
-    description: "commit hash from the repo which is triggering the workflow"
+    description: "image tag from the repo which is triggering the workflow"
 
 runs:
   using: "composite"
@@ -30,4 +30,4 @@ runs:
           -H "Accept: application/vnd.github.v3+json" \
           -H "Authorization: token ${{ inputs.token }}" \
           https://api.github.com/repos/${{ inputs.author }}/${{ inputs.repo }}/dispatches \
-          -d '{"event_type": "${{ inputs.eventType }}", "client_payload": {"environment": "${{ inputs.environment }}", "commitFrom": "${{ inputs.commitFrom }}", "commitSha": "${{ inputs.commitSha }}"}}'
+          -d '{"event_type": "${{ inputs.eventType }}", "client_payload": {"environment": "${{ inputs.environment }}", "commitFrom": "${{ inputs.commitFrom }}", "imageTag": "${{ inputs.imageTag }}"}}'
