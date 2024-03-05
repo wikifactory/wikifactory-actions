@@ -10,6 +10,9 @@ inputs:
     require: true
   eventType:
     require: true
+  environment:
+    require: true
+    description: "environment to trigger the workflow, staging, canary or production"
 
 runs:
   using: "composite"
@@ -21,4 +24,4 @@ runs:
           -H "Accept: application/vnd.github.v3+json" \
           -H "Authorization: token ${{ inputs.token }}" \
           https://api.github.com/repos/${{ inputs.author }}/${{ inputs.repo }}/dispatches \
-          -d '{"event_type": "${{ inputs.eventType }}"}'
+          -d '{"event_type": "${{ inputs.eventType }}", "client_payload": {"environment": "${{ inputs.environment }}"}}'
