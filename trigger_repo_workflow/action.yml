@@ -19,6 +19,12 @@ inputs:
   imageTag:
     require: true
     description: "image tag from the repo which is triggering the workflow"
+  backendGoTag:
+    require: true
+    description: "image tag from the repo which is triggering the workflow"
+  flaskTag:
+    require: true
+    description: "image tag from the repo which is triggering the workflow"
 
 runs:
   using: "composite"
@@ -30,4 +36,4 @@ runs:
           -H "Accept: application/vnd.github.v3+json" \
           -H "Authorization: token ${{ inputs.token }}" \
           https://api.github.com/repos/${{ inputs.author }}/${{ inputs.repo }}/dispatches \
-          -d '{"event_type": "${{ inputs.eventType }}", "client_payload": {"environment": "${{ inputs.environment }}", "commitFrom": "${{ inputs.commitFrom }}", "imageTag": "${{ inputs.imageTag }}"}}'
+          -d '{"event_type": "${{ inputs.eventType }}", "client_payload": {"environment": "${{ inputs.environment }}", "commitFrom": "${{ inputs.commitFrom }}", "imageTag": "${{ inputs.imageTag }}", "backendGoTag": "${{ inputs.backendGoTag }}", "flaskTag": "${{ inputs.flaskTag }}"}}'
