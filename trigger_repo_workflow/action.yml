@@ -32,8 +32,47 @@ runs:
     - name: Trigger Repository ${{ inputs.repo }} workflow
       shell: bash
       run: |
+        trigger_time=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+        echo "Triggering workflow at $trigger_time"
+
         curl -X POST \
           -H "Accept: application/vnd.github.v3+json" \
           -H "Authorization: token ${{ inputs.token }}" \
           https://api.github.com/repos/${{ inputs.author }}/${{ inputs.repo }}/dispatches \
           -d '{"event_type": "${{ inputs.eventType }}", "client_payload": {"environment": "${{ inputs.environment }}", "commitFrom": "${{ inputs.commitFrom }}", "imageTag": "${{ inputs.imageTag }}", "backendGoTag": "${{ inputs.backendGoTag }}", "flaskTag": "${{ inputs.flaskTag }}"}}'
+
+        echo "Workflow triggered, waiting for it to start..."
+        sleep 5
+
+
+        temp_file=$(mktemp)
+        matched="false"
+        while true; do
+          curl -s \
+            -H "Authorization: token ${{ inputs.token }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ inputs.author }}/${{ inputs.repo }}/actions/runs?per_page=5" | jq -c '.workflow_runs[] | select(.created_at > "'$trigger_time'")' > $temp_file
+
+          while read run; do
+            id=$(echo "$run" | jq -r '.id')
+            status=$(echo "$run" | jq -r '.status')
+            conclusion=$(echo "$run" | jq -r '.conclusion')
+
+            if [[ "$status" == "completed" && "$conclusion" == "success" ]]; then
+              echo "Workflow run $id completed successfully."
+              matched="true"
+              break
+            elif [[ "$status" == "completed" ]]; then
+              echo "Workflow run $id completed but was not successful."
+            else
+              echo "Workflow run $id is still in progress."
+            fi
+          done < $temp_file
+
+          if [[ "$matched" == "true" ]]; then
+            break
+          fi
+
+          sleep 30  # Adjust the sleep time as needed
+        done
+        rm $temp_file
