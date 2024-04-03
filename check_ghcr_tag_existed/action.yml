@@ -21,5 +21,5 @@ runs:
       run: |
         sudo apt-get install jq
         TOKEN=$(curl -u ${{ inputs.user }}:${{ inputs.token }} https://ghcr.io/token\?scope\="repository:${{ inputs.org }}/${{ inputs.package }}:pull" | jq -r .token)
-        HTTP_CODE=$(curl --head -H "Authorization: Bearer $TOKEN" https://ghcr.io/v2/${{ inputs.org }}/${{ inputs.package }}/manifests/${{ inputs.tag }} -o /dev/null -w '%{http_code}\n' -s)
+        HTTP_CODE=$(curl --head -H "Authorization: Bearer $TOKEN" -H "Accept: application/vnd.oci.image.index.v1+json" https://ghcr.io/v2/${{ inputs.org }}/${{ inputs.package }}/manifests/${{ inputs.tag }} -o /dev/null -w '%{http_code}\n' -s)
         if [ $HTTP_CODE -eq 200 ];then echo "TAG_EXISTED=true" > $GITHUB_ENV; else echo "TAG_EXISTED=false" > $GITHUB_ENV; fi
