@@ -9,4 +9,4 @@ runs:
       uses: tj-actions/branch-names@v6
     - name: trim branch
       shell: bash
-      run: echo "TRIM_BRANCH=$(echo ${{ steps.branch-name.outputs.current_branch }} | sed -r 's,refs/heads/,,g' | sed -r 's,/,-,g' | tr A-Z a-z)" >> $GITHUB_ENV
+      run: echo "TRIM_BRANCH=$(echo ${{ steps.branch-name.outputs.current_branch }} | sed -r 's,refs/heads/,,g' | sed -r 's,/,-,g' | sed -r 's,_,-,g' | tr A-Z a-z)" >> $GITHUB_ENV
